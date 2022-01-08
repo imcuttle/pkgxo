@@ -68,11 +68,11 @@ pnpm add pkgxo -D
 
 ### Custom updater
 
-You could use "pkgxo.js" in CWD for overwriting.
+You could use `pkgxo.js` in CWD for overwriting.
 
 ```javascript
-const pnpmManifest = require('pkgxo/pnpm-manifest')
 // pkgxo.js
+const pnpmManifest = require('pkgxo/pnpm-manifest')
 module.exports = async function (pkg, filename) {
   pkg = await pnpmManifest(pkg, filename)
   pkg.description = `[LOGO]: ${pkg.description || ''}`
