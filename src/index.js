@@ -49,10 +49,23 @@ async function getIndent(dir) {
 async function submitAndSave(fn, dir = process.cwd()) {
   const pkg = await readPkg(dir)
   const pkgCloned = cloneDeep(pkg)
-  const newPkg = await fn(pkg, path.join(dir, 'package.json'))
+  const prevPkgKeys = Object.keys(pkg)
+  const tmpNewPkg = (await fn(pkgCloned, path.join(dir, 'package.json'))) || {}
+
+  const newPkg = {}
+  prevPkgKeys.forEach((name) => {
+    if (!newPkg.hasOwnProperty(name)) {
+      newPkg[name] = tmpNewPkg.hasOwnProperty(name) ? tmpNewPkg[name] : pkg[name]
+    }
+  })
+  Object.keys(tmpNewPkg).forEach((name) => {
+    if (!newPkg.hasOwnProperty(name)) {
+      newPkg[name] = tmpNewPkg[name]
+    }
+  })
 
   await updateDbAndSave((db) => {
-    db[dir] = pkgCloned
+    db[dir] = pkg
     return db
   })
   await writePkg(dir, newPkg)
