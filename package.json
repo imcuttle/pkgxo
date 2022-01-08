@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@pnpm/exportable-manifest": "^2.2.3",
-    "lodash.clonedeep": "^4.5.0"
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.isequal": "^4.5.0"
   }
 }

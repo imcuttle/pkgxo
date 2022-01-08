@@ -6,6 +6,7 @@ const fs = require('fs')
 const { promisify } = require('util')
 const path = require('path')
 const cloneDeep = require('lodash.clonedeep')
+const isEq = require('lodash.isequal')
 
 const DB_PATH = require.resolve('../db.json')
 
@@ -68,13 +69,18 @@ async function submitAndSave(fn, dir = process.cwd()) {
     db[dir] = pkg
     return db
   })
-  await writePkg(dir, newPkg)
+  if (!isEq(newPkg, pkg)) {
+    await writePkg(dir, newPkg)
+  }
 }
 
 async function resetAndSave(dir = process.cwd()) {
+  const pkg = await readPkg(dir)
   const db = await readDb()
   if (db[dir]) {
-    await writePkg(dir, db[dir])
+    if (!isEq(db[dir], pkg)) {
+      await writePkg(dir, db[dir])
+    }
   }
 }
 
