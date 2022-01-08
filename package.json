@@ -1,7 +1,7 @@
 {
   "name": "pkgxo",
   "version": "1.0.0",
-  "description": "lets you can update package.json when publish",
+  "description": "Lets you can update package.json when publish",
   "author": "imcuttle <moyuyc95@gmail.com>",
   "bin": {
     "pkgxo": "bin.js"
